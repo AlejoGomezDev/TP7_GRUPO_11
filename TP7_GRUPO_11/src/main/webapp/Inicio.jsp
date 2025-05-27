@@ -24,6 +24,10 @@
 <main>
 	<h1> Inicio </h1>
 	
+	<%! String Inicio = "Soy la página inicio"; %>
+	
+	<%= Inicio %>
+	
 </main>
 
 
