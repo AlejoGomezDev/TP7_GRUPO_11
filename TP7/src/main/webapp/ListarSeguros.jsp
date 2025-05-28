@@ -17,7 +17,7 @@
 		</div>
 		<div class="div-nav">
 			<a href="./Inicio.jsp">INICIO</a> <br>
-			<a href="./AgregarSeguro.jsp">AGREGAR SEGUROS</a> <br>
+			<a href="./AgregarSeguro.jsp">AGREGAR SEGURO</a> <br>
 			<a href="./ListarSeguros.jsp">LISTAR SEGUROS</a> <br>
 		</div>
 	</nav>
@@ -42,7 +42,7 @@
 	</form>
 	
 	<br><br>
-	<table border="1">
+	<table id="tabla-listado">
 		<tr>
 			<th>ID Seguro</th>
 			<th>Descripcion Seguro</th>

@@ -6,7 +6,10 @@ body,html{
 	font-family:Arial, sans-serif;
 	font-weight:400;
 }
-
+main{
+	align-items:center;
+	text-align:center;
+}
 nav {
   display: flex;
   align-items: center;
@@ -14,6 +17,8 @@ nav {
   gap: 2em; 
   border-bottom:1px solid grey;
   font-weight: 700;
+  height:4em;
+  background-color:rgb(222, 223, 224);
 }
 
 .logo img {
@@ -35,10 +40,26 @@ nav {
 
 .div-nav a {
   text-decoration: none;
-  color:rgb(59, 57, 57);
-  transition: all 0.3s ease;
+  color: black;
 }
 
 .div-nav a:hover {
-  color:rgb(95, 149, 176);
+  color:rgb(36, 62, 74);
+}
+
+#tabla-listado, #tabla-listado td{
+	margin: 0 auto;
+	border: 1px solid black;
+	padding:.5em;
+	border-collapse: collapse;
+}
+
+#tabla-listado th tr {
+  border-bottom: 2px solid black;
+}
+
+#tabla-listado th {
+  border: none;
+  padding: 8px;
+  text-align: left;
 }
