@@ -36,8 +36,10 @@ public class servletListar extends HttpServlet {
 		SeguroDao segurosDao = new SeguroDao();
 		ArrayList<Seguro> listaSeguro = new ArrayList<Seguro>();
 		listaSeguro = segurosDao.obtenerSeguros();
+		
 		ArrayList<TipoSeguro> listaTipo = new ArrayList<TipoSeguro>();
 		listaTipo =	segurosDao.obtenerTipos();
+		
 		request.setAttribute("listaTipos", listaTipo);
 		request.setAttribute("listaSeguro", listaSeguro);
 		
