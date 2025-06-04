@@ -89,6 +89,23 @@
 	        <%= request.getAttribute("mensajeError") %>
 	    </div>
 	<% } %>
+	
+	<%
+	int filas = 0; 
+	if (request.getAttribute("cantFilas") != null) 
+		filas = Integer.parseInt(request.getAttribute("cantFilas").toString()); 
+	%>
+	
+	<%
+		if(filas==1)
+		{
+	%>
+	    <div id="div-agregado-exito">
+	         Seguro agregado con éxito
+	    </div>
+	<%
+		}
+	%>
 </main>
 
 

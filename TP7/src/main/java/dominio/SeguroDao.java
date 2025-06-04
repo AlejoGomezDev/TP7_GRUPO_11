@@ -61,5 +61,30 @@ public class SeguroDao {
 			return proximoSeguro + 1;
 		}
 	
-	
+	public int agregarSeguro(Seguro seg) {
+		 try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 
+		 int filas_afectadas = 0;
+		 String query="INSERT INTO Seguros(descripcion, idTipo, costoContratacion, costoAsegurado) VALUES "
+		 + "('"+seg.getDescripcion()+"', '"+seg.getIdTipo()+"', '"+seg.getCostoContratacion()+"', '"+seg.getCostoAsegurado()+"')";	
+		 Connection cn = null;
+		 
+			try
+			{
+				cn = DriverManager.getConnection(host+dbName, user,pass);
+				Statement st = cn.createStatement();			
+				filas_afectadas=st.executeUpdate(query);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		 
+		 return filas_afectadas;
+	}
 }

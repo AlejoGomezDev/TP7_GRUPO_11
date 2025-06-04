@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dominio.Seguro;
 import dominio.SeguroDao;
 import dominio.TipoSeguro;
 import dominio.TipoSeguroDao;
@@ -42,7 +43,7 @@ public class servletAgregar extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		int filas = 0;
 		//Si se hizo click en agregar
 		if(request.getParameter("btnAgregarSeguro") != null) {
 			
@@ -55,6 +56,17 @@ public class servletAgregar extends HttpServlet {
 		    //creamos un booleano en false y un mensaje de error vacio para ir llenando
 		    boolean hayErrores = false;
 		    String mensajeError = "";
+		    
+		    //Instancia de Seguro
+		    Seguro seg = new Seguro();
+		    seg.setIdTipo(Integer.parseInt(tipo));
+		    seg.setDescripcion(descripcion);
+		    seg.setCostoAsegurado(Integer.parseInt(costoMaximo));
+		    seg.setCostoContratacion(Integer.parseInt(costo));
+		    
+		    //Instancia de SeguroDAO
+		    SeguroDao segdao = new SeguroDao();
+		    
 		    
 		    if(descripcion == null || descripcion.trim().isEmpty()) {
 		        mensajeError += "* La descripción es obligatoria.<br>";
@@ -93,8 +105,12 @@ public class servletAgregar extends HttpServlet {
 		    }
 		    
 		    //SI NO HAY ERRORES...INSERTAR
-		    
+		    filas = segdao.agregarSeguro(seg);
 		}
+		//REDISPATCHER
+		request.setAttribute("cantFilas", filas);
+		RequestDispatcher rd = request.getRequestDispatcher("/AgregarSeguro.jsp");
+		rd.forward(request, response);
 	}
 
 }
