@@ -19,16 +19,38 @@ public class SeguroDao {
 	  **/
 	private String host = "jdbc:mysql://localhost:3306/";
 	private String user = "root";
-	/*private String pass = "root";*/
-	private String pass = "13121401";//password alejo
+	private String pass = "root";
+	/*private String pass = "13121401";//password alejo
 	/*private String dbName = "SegurosGroup";*/
 	private String dbName = "segurosgroup"; //name alejo
 	
 	protected Connection connection;
 	
-	public ArrayList<Seguro> obtenerSeguros() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<segurosDto> obtenerSeguros() {
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			this.connection = DriverManager.getConnection(host+dbName,user,pass);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		ArrayList<segurosDto> listaSeguros = new ArrayList<segurosDto>();
+		String query = "SELECT idSeguro, seguros.descripcion, tiposeguros.descripcion,"
+				+ " costoContratacion, costoAsegurado FROM seguros INNER JOIN tiposeguros"
+				+ " ON seguros.idTipo = tiposeguros.idTipo";
+		try {
+			Statement st = connection.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+			  // agregar info a la lista
+			}
+			
+			connection.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return listaSeguros;
 	}
 	
 	public ArrayList<TipoSeguro> obtenerTipos() {
