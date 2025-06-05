@@ -71,11 +71,22 @@ public class servletAgregar extends HttpServlet {
 		        mensajeError += "* El costo de contratación es obligatorio.<br>";
 		        hayErrores = true;
 		    }
+		    
+		    if(costo != null && NaN(costo.trim())){
+		        mensajeError += "* El costo de contratación debe estar formado solo por números.<br>";
+		        hayErrores = true;
+		    }
 
 		    if(costoMaximo == null || costoMaximo.trim().isEmpty()) {
 		        mensajeError += "* El costo máximo asegurado es obligatorio.<br>";
 		        hayErrores = true;
 		    }
+		    
+		    if(costoMaximo != null && NaN(costoMaximo.trim())){
+		        mensajeError += "* El costo máximo debe estar formado solo por números.<br>";
+		        hayErrores = true;
+		    }
+		    
 		    
 		    if(hayErrores) {
 		    	//SI HAY ERRORES SETEAMOS EL MENSAJE DE ERROR A LA REQUEST
@@ -112,4 +123,13 @@ public class servletAgregar extends HttpServlet {
         rd.forward(request, response);
 	}
 
+	public boolean NaN(String texto) {
+	    try {
+	        Integer.parseInt(texto);
+	        return false;
+	    } catch (NumberFormatException e) {
+	        return true;
+	    }
+	}
+	
 }
