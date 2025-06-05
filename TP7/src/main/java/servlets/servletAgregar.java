@@ -57,17 +57,6 @@ public class servletAgregar extends HttpServlet {
 		    boolean hayErrores = false;
 		    String mensajeError = "";
 		    
-		    //Instancia de Seguro
-		    Seguro seg = new Seguro();
-		    seg.setIdTipo(Integer.parseInt(tipo));
-		    seg.setDescripcion(descripcion);
-		    seg.setCostoAsegurado(Integer.parseInt(costoMaximo));
-		    seg.setCostoContratacion(Integer.parseInt(costo));
-		    
-		    //Instancia de SeguroDAO
-		    SeguroDao segdao = new SeguroDao();
-		    
-		    
 		    if(descripcion == null || descripcion.trim().isEmpty()) {
 		        mensajeError += "* La descripción es obligatoria.<br>";
 		        hayErrores = true;
@@ -89,28 +78,38 @@ public class servletAgregar extends HttpServlet {
 		    }
 		    
 		    if(hayErrores) {
-		    	//si hay errores mandamos un mensaje de error
+		    	//SI HAY ERRORES SETEAMOS EL MENSAJE DE ERROR A LA REQUEST
 		    	request.setAttribute("mensajeError", mensajeError);
+		    }else {
+		    	//SI NO HAY ERRORES...INSERTAR
 		    	
-		        //mandar los tipos y el id para que no se rompan
-		        ArrayList<TipoSeguro> tipos = daoTipo.obtenerTodos(); 
-		        int proximoId = daoSeguro.obtenerProximoId();
-
-		        request.setAttribute("listaTipos", tipos);
-		        request.setAttribute("proximoID", proximoId);
+		    	//Creamos instancia de Seguro
+		    	Seguro seg = new Seguro();
+		    	seg.setIdTipo(Integer.parseInt(tipo));
+		    	seg.setDescripcion(descripcion);
+		    	seg.setCostoAsegurado(Integer.parseInt(costoMaximo));
+		    	seg.setCostoContratacion(Integer.parseInt(costo));
 		    	
+		    	//obtenemos las filas
+		    	filas = daoSeguro.agregarSeguro(seg);	
 		    	
-		        request.getRequestDispatcher("AgregarSeguro.jsp").forward(request, response);
-		        return;
+		    	//SETEAMOS LAS FILAS A LA REQUEST
+		    	request.setAttribute("cantFilas", filas);
 		    }
 		    
-		    //SI NO HAY ERRORES...INSERTAR
-		    filas = segdao.agregarSeguro(seg);
 		}
-		//REDISPATCHER
-		request.setAttribute("cantFilas", filas);
+		//DISPATCHER
 		RequestDispatcher rd = request.getRequestDispatcher("/AgregarSeguro.jsp");
-		rd.forward(request, response);
+		
+        //SETEAMOS LOS TIPOS DE SEGURO Y EL ID
+        ArrayList<TipoSeguro> tipos = daoTipo.obtenerTodos(); 
+        int proximoId = daoSeguro.obtenerProximoId();
+
+        request.setAttribute("listaTipos", tipos);
+        request.setAttribute("proximoID", proximoId);
+        
+        //MANDAMOS LA REQUEST
+        rd.forward(request, response);
 	}
 
 }

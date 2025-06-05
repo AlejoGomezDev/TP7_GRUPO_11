@@ -84,27 +84,36 @@
         </table>
     </form>
 	
+	<!-- CONDICIONAL MENSAJE DE ERROR -->
 	<% if (request.getAttribute("mensajeError") != null) { %>
 	    <div id="div-agregar-error">
 	        <%= request.getAttribute("mensajeError") %>
 	    </div>
 	<% } %>
 	
+	<!-- CONDICIONAL INSERTAR EN LA DB -->
 	<%
 	int filas = 0; 
-	if (request.getAttribute("cantFilas") != null) 
+	if (request.getAttribute("cantFilas") != null) {
 		filas = Integer.parseInt(request.getAttribute("cantFilas").toString()); 
+	
 	%>
 	
 	<%
-		if(filas==1)
-		{
+		if (filas == 1) {
 	%>
-	    <div id="div-agregado-exito">
+	    <div style = "color:gren;" id="div-agregado-exito">
 	         Seguro agregado con éxito
 	    </div>
 	<%
+		} else {
+	%>
+	    <div style = "color:red;" id="div-error-agregado">
+	         Hubo un ERROR al agregar el seguro
+	    </div>
+	<%
 		}
+	}
 	%>
 </main>
 

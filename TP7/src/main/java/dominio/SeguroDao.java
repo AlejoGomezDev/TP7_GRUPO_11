@@ -2,6 +2,7 @@ package dominio;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class SeguroDao {
 	/*private String pass = "root";*/
 	private String pass = "13121401";//password alejo
 	/*private String dbName = "SegurosGroup";*/
-	private String dbName = "segurosgroup"; //name alej
+	private String dbName = "segurosgroup"; //name alejo
 	
 	protected Connection connection;
 	
@@ -70,15 +71,22 @@ public class SeguroDao {
 			}
 		 
 		 int filas_afectadas = 0;
-		 String query="INSERT INTO Seguros(descripcion, idTipo, costoContratacion, costoAsegurado) VALUES "
-		 + "('"+seg.getDescripcion()+"', '"+seg.getIdTipo()+"', '"+seg.getCostoContratacion()+"', '"+seg.getCostoAsegurado()+"')";	
+		 String query = "INSERT INTO seguros (descripcion, idTipo, costoContratacion, costoAsegurado) " +
+	               "VALUES (?, ?, ?, ?)";
+		 
 		 Connection cn = null;
 		 
 			try
 			{
 				cn = DriverManager.getConnection(host+dbName, user,pass);
-				Statement st = cn.createStatement();			
-				filas_afectadas=st.executeUpdate(query);
+				PreparedStatement pst = cn.prepareStatement(query);	
+				
+			    pst.setString(1, seg.getDescripcion());
+			    pst.setInt(2, seg.getIdTipo());
+			    pst.setDouble(3, seg.getCostoContratacion());
+			    pst.setDouble(4, seg.getCostoAsegurado());
+			    
+				filas_afectadas= pst.executeUpdate();
 			}
 			catch(Exception e)
 			{
