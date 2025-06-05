@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dominio.Seguro;
 import dominio.SeguroDao;
 import dominio.TipoSeguro;
+import dominio.segurosDto;
 
 /**
  * Servlet implementation class ServletListar
@@ -34,7 +34,7 @@ public class servletListar extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		SeguroDao segurosDao = new SeguroDao();
-		ArrayList<Seguro> listaSeguro = new ArrayList<Seguro>();
+		ArrayList<segurosDto> listaSeguro = new ArrayList<segurosDto>();
 		listaSeguro = segurosDao.obtenerSeguros();
 		
 		ArrayList<TipoSeguro> listaTipo = new ArrayList<TipoSeguro>();

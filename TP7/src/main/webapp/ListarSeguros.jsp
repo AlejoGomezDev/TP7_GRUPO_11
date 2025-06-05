@@ -1,3 +1,5 @@
+<%@page import="dominio.segurosDto"%>
+<%@page import="dominio.Seguro"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -28,7 +30,7 @@
 	
 	<br> <br>
 	
-	<form action="Filtrar" method="get">
+	<form action="Listar" method="get">
 	<label> Busqueda por tipo de Seguros </label>
 	<select name="filtro">
 	
@@ -41,6 +43,13 @@
 	<input type="submit" name="btnFiltrar" value="Filtrar"/>
 	</form>
 	
+		<%
+			ArrayList<segurosDto> listaSeguros = null;
+			if(request.getAttribute("listaSeguro")!=null){
+				listaSeguros = (ArrayList<segurosDto>) request.getAttribute("listaSeguro");
+			}
+		%>
+		
 	<br><br>
 	<table id="tabla-listado">
 		<tr>
@@ -50,14 +59,21 @@
 			<th>Costo Contratacion</th>
 			<th>Costo Maximo Asegurado</th>
 		</tr>
+
+<%
+	if(listaSeguros!=null)
+		for(segurosDto segDto : listaSeguros)
+		{
+%>
+		
 		<tr>
-			<td>"1234"</td>
-			<td>"seguro para algo"</td>
-			<td>"seguro de pc"</td>
-			<td>"$500.000"</td>
-			<td>"$1.000.000"</td>
+			<td><%= segDto.getIdSeguro()%></td>
+			<td><%= segDto.getDescripcion()%></td>
+			<td><%= segDto.getIdTipo()%></td>
+			<td><%= segDto.getCostoContratacion()%></td>
+			<td><%= segDto.getCostoAsegurado()%></td>
 		</tr>
-	
+	<% } %>
 	</table>
 	
 </main>

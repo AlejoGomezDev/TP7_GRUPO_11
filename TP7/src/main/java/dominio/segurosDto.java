@@ -24,7 +24,7 @@ public class segurosDto {
 	public String getIdTipo() {
 		return descTipo;
 	}
-	public void setIdTipo(String descTipo) {
+	public void setDescTipo(String descTipo) {
 		this.descTipo = descTipo;
 	}
 	public float getCostoContratacion() {

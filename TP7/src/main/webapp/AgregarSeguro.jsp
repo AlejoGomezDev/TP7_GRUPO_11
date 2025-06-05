@@ -102,7 +102,7 @@
 	<%
 		if (filas == 1) {
 	%>
-	    <div style = "color:gren;" id="div-agregado-exito">
+	    <div style = "color:green;" id="div-agregado-exito">
 	         Seguro agregado con éxito
 	    </div>
 	<%
