@@ -19,10 +19,10 @@ public class SeguroDao {
 	  **/
 	private String host = "jdbc:mysql://localhost:3306/";
 	private String user = "root";
-	private String pass = "root";
-	//private String pass = "13121401";//password alejo
-	private String dbName = "SegurosGroup";
-	//private String dbName = "segurosgroup"; //name alejo
+	//private String pass = "root";
+	private String pass = "13121401";//password alejo
+	//private String dbName = "SegurosGroup";
+	private String dbName = "segurosgroup"; //name alejo
 	
 	protected Connection connection;
 	

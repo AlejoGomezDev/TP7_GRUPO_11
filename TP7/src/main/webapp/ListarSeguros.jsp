@@ -1,6 +1,7 @@
 <%@page import="dominio.segurosDto"%>
 <%@page import="dominio.Seguro"%>
 <%@page import="java.util.ArrayList"%>
+<%@ page import="dominio.TipoSeguro" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,7 +21,7 @@
 		<div class="div-nav">
 			<a href="./Inicio.jsp">INICIO</a> <br>
 			<a href="servletAgregar">AGREGAR SEGURO</a> <br>
-			<a href="./ListarSeguros.jsp">LISTAR SEGUROS</a> <br>
+			<a href="servletListar">LISTAR SEGUROS</a> <br>
 		</div>
 	</nav>
 </header>
@@ -30,17 +31,25 @@
 	
 	<br> <br>
 	
-	<form action="Listar" method="get">
+<form action="Listar" method="get">
 	<label> Busqueda por tipo de Seguros </label>
 	<select name="filtro">
 	
-	<!-- Ejemplo de opciones -->
-			<option value="0">Mostrar Todos</option>
-			<option value="3">Automotor</option>
-			<option value="1">Hogar</option>
-			<option value="2">Vida</option>
-	
+	<% 
+		ArrayList<TipoSeguro> tipos;
+        if(request.getAttribute("listaTipos") != null) {
+        tipos = (ArrayList<TipoSeguro>) request.getAttribute("listaTipos");
+        
+        for(TipoSeguro tipo : tipos) {
+    %>
+        <option value="<%= tipo.getId() %>"><%= tipo.getDescripcion() %></option>
+        <%
+         } // for
+         } // if
+		%>
+
 	</select> 
+	
 	<input type="submit" name="btnFiltrar" value="Filtrar"/>
 	</form>
 	

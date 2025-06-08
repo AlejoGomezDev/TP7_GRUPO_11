@@ -34,8 +34,8 @@ public class servletAgregar extends HttpServlet {
 		daoSeguro = new SeguroDao();
 		int proximoId = daoSeguro.obtenerProximoId();
 		
-		request.setAttribute("listaTipos",listaTipos);
 		request.setAttribute("proximoID",proximoId);
+		request.setAttribute("listaTipos",listaTipos);
 		RequestDispatcher ds = request.getRequestDispatcher("/AgregarSeguro.jsp");
 		
 		ds.forward(request, response);

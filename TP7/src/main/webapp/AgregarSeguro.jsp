@@ -19,7 +19,7 @@
 		<div class="div-nav">
 			<a href="./Inicio.jsp">INICIO</a> <br>
 			<a href="servletAgregar">AGREGAR SEGURO</a> <br>
-			<a href="./ListarSeguros.jsp">LISTAR SEGUROS</a> <br>
+			<a href="servletListar">LISTAR SEGUROS</a> <br>
 		</div>
 	</nav>
 </header>
