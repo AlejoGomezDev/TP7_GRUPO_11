@@ -32,20 +32,33 @@ public class servletListar extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		int idTipo = Integer.parseInt(request.getParameter("filtro"));
 		SeguroDao segurosDao = new SeguroDao();
 		ArrayList<segurosDto> listaSeguro = new ArrayList<segurosDto>();
-		listaSeguro = segurosDao.obtenerSeguros();
-		
 		ArrayList<TipoSeguro> listaTipo = new ArrayList<TipoSeguro>();
-		listaTipo =	segurosDao.obtenerTipos();
-		
-		request.setAttribute("listaTipos", listaTipo);
-		request.setAttribute("listaSeguro", listaSeguro);
-		
 		RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");   
-		rd.forward(request, response);
+		
+		if(request.getParameter("btnFiltrar") != null) {
+			listaSeguro = segurosDao.obtenerSegurosFiltrado(idTipo);
 			
+			listaTipo =	segurosDao.obtenerTipos();
+			
+			request.setAttribute("listaTipos", listaTipo);
+			request.setAttribute("listaSeguro", listaSeguro);
+			
+			rd.forward(request, response);
+		}
+		else {
+			listaSeguro = segurosDao.obtenerSeguros();
+			
+
+			listaTipo =	segurosDao.obtenerTipos();
+			
+			request.setAttribute("listaTipos", listaTipo);
+			request.setAttribute("listaSeguro", listaSeguro);
+
+			rd.forward(request, response);
+		}
 	}
 
 	/**

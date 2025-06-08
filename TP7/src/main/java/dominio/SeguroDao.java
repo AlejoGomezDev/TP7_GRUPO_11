@@ -60,6 +60,40 @@ public class SeguroDao {
 		return listaSeguros;
 	}
 	
+	public ArrayList<segurosDto> obtenerSegurosFiltrado(int idTipo) {
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			this.connection = DriverManager.getConnection(host+dbName,user,pass);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		ArrayList<segurosDto> listaSeguros = new ArrayList<segurosDto>();
+		String query = "SELECT idSeguro, seguros.descripcion AS descSeguro, tiposeguros.descripcion AS descTipo,"
+				+ " costoContratacion, costoAsegurado FROM seguros INNER JOIN tiposeguros"
+				+ " ON tiposeguros.idTipos = " + idTipo;
+		try {
+			Statement st = connection.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+			  segurosDto seguro = new segurosDto();
+			  seguro.setIdSeguro(rs.getInt("idSeguro"));
+			  seguro.setDescripcion(rs.getString("descSeguro"));
+			  seguro.setDescTipo(rs.getString("descTipo"));
+			  seguro.setCostoContratacion(rs.getFloat("costoContratacion"));
+			  seguro.setCostoAsegurado(rs.getFloat("costoAsegurado"));
+			  
+			  listaSeguros.add(seguro);
+			}
+			
+			connection.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return listaSeguros;
+	}
+	
 	public ArrayList<TipoSeguro> obtenerTipos() {
 		// TODO Auto-generated method stub
 		return null;
