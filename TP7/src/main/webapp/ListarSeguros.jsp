@@ -35,9 +35,10 @@
 	<select name="filtro">
 	
 	<!-- Ejemplo de opciones -->
-			<option value="1">Automotor</option>
-			<option value="2">Hogar</option>
-			<option value="3">Vida</option>
+			<option value="0">Mostrar Todos</option>
+			<option value="3">Automotor</option>
+			<option value="1">Hogar</option>
+			<option value="2">Vida</option>
 	
 	</select> 
 	<input type="submit" name="btnFiltrar" value="Filtrar"/>

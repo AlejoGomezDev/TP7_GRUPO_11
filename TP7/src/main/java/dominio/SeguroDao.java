@@ -71,7 +71,7 @@ public class SeguroDao {
 		ArrayList<segurosDto> listaSeguros = new ArrayList<segurosDto>();
 		String query = "SELECT idSeguro, seguros.descripcion AS descSeguro, tiposeguros.descripcion AS descTipo,"
 				+ " costoContratacion, costoAsegurado FROM seguros INNER JOIN tiposeguros"
-				+ " ON tiposeguros.idTipos = " + idTipo;
+				+ " ON seguros.idTipo = tiposeguros.idTipo WHERE seguros.idTipo = "+idTipo;
 		try {
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery(query);
@@ -91,6 +91,7 @@ public class SeguroDao {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(listaSeguros);
 		return listaSeguros;
 	}
 	

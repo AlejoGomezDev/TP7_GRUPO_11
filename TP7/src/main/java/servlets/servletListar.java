@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dominio.SeguroDao;
-import dominio.TipoSeguro;
 import dominio.segurosDto;
 
 /**
@@ -35,28 +34,22 @@ public class servletListar extends HttpServlet {
 		int idTipo = Integer.parseInt(request.getParameter("filtro"));
 		SeguroDao segurosDao = new SeguroDao();
 		ArrayList<segurosDto> listaSeguro = new ArrayList<segurosDto>();
-		ArrayList<TipoSeguro> listaTipo = new ArrayList<TipoSeguro>();
 		RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");   
 		
-		if(request.getParameter("btnFiltrar") != null) {
-			listaSeguro = segurosDao.obtenerSegurosFiltrado(idTipo);
-			
-			listaTipo =	segurosDao.obtenerTipos();
-			
-			request.setAttribute("listaTipos", listaTipo);
+		if(idTipo == 0) {
+			listaSeguro = segurosDao.obtenerSeguros();
+		
 			request.setAttribute("listaSeguro", listaSeguro);
-			
 			rd.forward(request, response);
 		}
-		else {
-			listaSeguro = segurosDao.obtenerSeguros();
-			
 
-			listaTipo =	segurosDao.obtenerTipos();
-			
-			request.setAttribute("listaTipos", listaTipo);
+		
+		if(request.getParameter("btnFiltrar") != null) {
+
+			listaSeguro = segurosDao.obtenerSegurosFiltrado(idTipo);
+
 			request.setAttribute("listaSeguro", listaSeguro);
-
+			
 			rd.forward(request, response);
 		}
 	}
