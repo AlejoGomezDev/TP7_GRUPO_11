@@ -4,7 +4,7 @@ public class Seguro {
 	
 	private int idSeguro;
 	private String descripcion;
-	private int idTipo;
+	private TipoSeguro tipo;
 	private float costoContratacion;
 	private float costoAsegurado;
 	
@@ -21,11 +21,11 @@ public class Seguro {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public int getIdTipo() {
-		return idTipo;
+	public TipoSeguro getTipo() {
+		return this.tipo;
 	}
-	public void setIdTipo(int idTipo) {
-		this.idTipo = idTipo;
+	public void setTipo(TipoSeguro tipo) {
+		this.tipo = tipo;
 	}
 	public float getCostoContratacion() {
 		return costoContratacion;
@@ -41,11 +41,11 @@ public class Seguro {
 	}
 	
 	///CONSTRUCTORES
-	public Seguro(int idSeguro, String descripcion, int idTipo, float costoContratacion, float costoAsegurado) {
+	public Seguro(int idSeguro, String descripcion, TipoSeguro tipo, float costoContratacion, float costoAsegurado) {
 		super();
 		this.idSeguro = idSeguro;
 		this.descripcion = descripcion;
-		this.idTipo = idTipo;
+		this.tipo = tipo;
 		this.costoContratacion = costoContratacion;
 		this.costoAsegurado = costoAsegurado;
 	}
@@ -55,7 +55,7 @@ public class Seguro {
 	///TO-STRING
 	@Override
 	public String toString() {
-		return "Seguro [idSeguro=" + idSeguro + ", descripcion=" + descripcion + ", idTipo=" + idTipo
+		return "Seguro [idSeguro=" + idSeguro + ", descripcion=" + descripcion + ", idTipo=" + tipo.getId()
 				+ ", costoContratacion=" + costoContratacion + ", costoAsegurado=" + costoAsegurado + "]";
 	}
 	

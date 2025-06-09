@@ -5,7 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 
 <link rel="stylesheet" href="./Style.css">
@@ -31,9 +31,10 @@
 	
 	<br> <br>
 	
-<form action="Listar" method="get">
+<form action="servletListar" method="get">
 	<label> Busqueda por tipo de Seguros </label>
 	<select name="filtro">
+	<option value="todos" > Mostrar todos</option>
 	
 	<% 
 		ArrayList<TipoSeguro> tipos;
@@ -54,9 +55,9 @@
 	</form>
 	
 		<%
-			ArrayList<segurosDto> listaSeguros = null;
+			ArrayList<Seguro> listaSeguros = null;
 			if(request.getAttribute("listaSeguro")!=null){
-				listaSeguros = (ArrayList<segurosDto>) request.getAttribute("listaSeguro");
+				listaSeguros = (ArrayList<Seguro>) request.getAttribute("listaSeguro");
 			}
 		%>
 		
@@ -72,16 +73,16 @@
 
 <%
 	if(listaSeguros!=null)
-		for(segurosDto segDto : listaSeguros)
+		for(Seguro seg : listaSeguros)
 		{
 %>
 		
 		<tr>
-			<td><%= segDto.getIdSeguro()%></td>
-			<td><%= segDto.getDescripcion()%></td>
-			<td><%= segDto.getIdTipo()%></td>
-			<td><%= segDto.getCostoContratacion()%></td>
-			<td><%= segDto.getCostoAsegurado()%></td>
+			<td><%= seg.getIdSeguro()%></td>
+			<td><%= seg.getDescripcion()%></td>
+			<td><%= seg.getTipo().getDescripcion()%></td>
+			<td><%= seg.getCostoContratacion()%></td>
+			<td><%= seg.getCostoAsegurado()%></td>
 		</tr>
 	<% } %>
 	</table>

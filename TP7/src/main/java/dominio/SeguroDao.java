@@ -19,14 +19,15 @@ public class SeguroDao {
 	  **/
 	private String host = "jdbc:mysql://localhost:3306/";
 	private String user = "root";
-	//private String pass = "root";
-	private String pass = "13121401";//password alejo
-	//private String dbName = "SegurosGroup";
-	private String dbName = "segurosgroup"; //name alejo
+	private String pass = "root";
+	//private String pass = "13121401";//password alejo
+	
+	private String dbName = "SegurosGroup";
+	//private String dbName = "segurosgroup"; //name alejo
 	
 	protected Connection connection;
 	
-	public ArrayList<segurosDto> obtenerSeguros() {
+	public ArrayList<Seguro> obtenerSeguros() {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -34,24 +35,32 @@ public class SeguroDao {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		ArrayList<segurosDto> listaSeguros = new ArrayList<segurosDto>();
-		String query = "SELECT idSeguro, seguros.descripcion AS descSeguro, tiposeguros.descripcion AS descTipo,"
-				+ " costoContratacion, costoAsegurado FROM seguros INNER JOIN tiposeguros"
-				+ " ON seguros.idTipo = tiposeguros.idTipo";
+		ArrayList<Seguro> listaSeguros = new ArrayList<Seguro>();
+		
+		String query = "SELECT s.idSeguro, s.descripcion AS descSeguro, s.costoContratacion, s.costoAsegurado, " +
+				   "t.idTipo, t.descripcion AS descTipo " +
+				   "FROM seguros as s INNER JOIN tiposeguros as t ON s.idTipo = t.idTipo";
 		try {
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
-			  segurosDto seguro = new segurosDto();
-			  seguro.setIdSeguro(rs.getInt("idSeguro"));
-			  seguro.setDescripcion(rs.getString("descSeguro"));
-			  seguro.setDescTipo(rs.getString("descTipo"));
-			  seguro.setCostoContratacion(rs.getFloat("costoContratacion"));
-			  seguro.setCostoAsegurado(rs.getFloat("costoAsegurado"));
+				
+			//Crear el tipo de seguro
+			TipoSeguro tipo = new TipoSeguro();
+			tipo.setId(rs.getInt("idTipo"));
+			tipo.setDescripcion(rs.getString("descTipo"));
+			
+			//Crear el seguro e instanciar el tipo correctamente
+			Seguro seguro = new Seguro();
+			seguro.setIdSeguro(rs.getInt("idSeguro"));
+			seguro.setDescripcion(rs.getString("descSeguro"));
+			seguro.setTipo(tipo);
+			seguro.setCostoContratacion(rs.getFloat("costoContratacion"));
+			seguro.setCostoAsegurado(rs.getFloat("costoAsegurado"));
 			  
-			  listaSeguros.add(seguro);
-			}
+			listaSeguros.add(seguro);
+		}
 			
 			connection.close();
 		}catch(Exception e) {
@@ -60,7 +69,7 @@ public class SeguroDao {
 		return listaSeguros;
 	}
 	
-	public ArrayList<segurosDto> obtenerSegurosFiltrado(int idTipo) {
+	public ArrayList<Seguro> obtenerSegurosFiltrado(int idTipo) {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -68,19 +77,28 @@ public class SeguroDao {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		ArrayList<segurosDto> listaSeguros = new ArrayList<segurosDto>();
+		ArrayList<Seguro> listaSeguros = new ArrayList<Seguro>();
 		String query = "SELECT idSeguro, seguros.descripcion AS descSeguro, tiposeguros.descripcion AS descTipo,"
 				+ " costoContratacion, costoAsegurado FROM seguros INNER JOIN tiposeguros"
-				+ " ON seguros.idTipo = tiposeguros.idTipo WHERE seguros.idTipo = "+idTipo;
+				+ " ON seguros.idTipo = tiposeguros.idTipo WHERE seguros.idTipo = ?";
 		try {
-			Statement st = connection.createStatement();
-			ResultSet rs = st.executeQuery(query);
+			PreparedStatement pst = connection.prepareStatement(query);
+			pst.setInt(1, idTipo);
+			ResultSet rs = pst.executeQuery();
 			
 			while(rs.next()) {
-			  segurosDto seguro = new segurosDto();
+				
+			//Crear el tipo
+			TipoSeguro tipo = new TipoSeguro();
+			tipo.setId(idTipo);
+			tipo.setDescripcion(rs.getString("descTipo"));
+				
+			//Crear el seguro y pasar el tipo
+				
+			Seguro seguro = new Seguro();
 			  seguro.setIdSeguro(rs.getInt("idSeguro"));
 			  seguro.setDescripcion(rs.getString("descSeguro"));
-			  seguro.setDescTipo(rs.getString("descTipo"));
+			  seguro.setTipo(tipo);
 			  seguro.setCostoContratacion(rs.getFloat("costoContratacion"));
 			  seguro.setCostoAsegurado(rs.getFloat("costoAsegurado"));
 			  
@@ -146,7 +164,7 @@ public class SeguroDao {
 				PreparedStatement pst = cn.prepareStatement(query);	
 				
 			    pst.setString(1, seg.getDescripcion());
-			    pst.setInt(2, seg.getIdTipo());
+			    pst.setInt(2, seg.getTipo().getId());
 			    pst.setDouble(3, seg.getCostoContratacion());
 			    pst.setDouble(4, seg.getCostoAsegurado());
 			    

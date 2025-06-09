@@ -94,9 +94,13 @@ public class servletAgregar extends HttpServlet {
 		    }else {
 		    	//SI NO HAY ERRORES...INSERTAR
 		    	
+		    	//Creamos la instancia del Tipo
+		    	TipoSeguro tipoSeguro = new TipoSeguro();
+		    	tipoSeguro.setId(Integer.parseInt(tipo));
+
 		    	//Creamos instancia de Seguro
 		    	Seguro seg = new Seguro();
-		    	seg.setIdTipo(Integer.parseInt(tipo));
+		    	seg.setTipo(tipoSeguro);
 		    	seg.setDescripcion(descripcion);
 		    	seg.setCostoAsegurado(Integer.parseInt(costoMaximo));
 		    	seg.setCostoContratacion(Integer.parseInt(costo));

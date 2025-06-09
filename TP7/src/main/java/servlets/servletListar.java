@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dominio.Seguro;
 import dominio.SeguroDao;
 import dominio.TipoSeguro;
 import dominio.TipoSeguroDao;
-import dominio.segurosDto;
+
 
 /**
  * Servlet implementation class ServletListar
@@ -33,47 +34,35 @@ public class servletListar extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//Obtener los tipos se seguro
+
+		//Obtener los tipos de seguro y cargar el DDL
 		TipoSeguroDao daoTipo = new TipoSeguroDao(); 
 		ArrayList<TipoSeguro> listaTipos = daoTipo.obtenerTodos();
-		System.out.println("Tamaño de listaTipos: " + listaTipos.size());
 		request.setAttribute("listaTipos", listaTipos);
-		RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");
-		rd.forward(request, response);
-		
-		/*
-		 * //MOSTRAR LOS TIPOS DE SEGUROS
-		daoTipo = new TipoSeguroDao();
-		ArrayList<TipoSeguro> listaTipos = new ArrayList<TipoSeguro>();
-		listaTipos = daoTipo.obtenerTodos();
-		
-		request.setAttribute("listaTipos",listaTipos);
 
-		
-		//OBTENER EL VALUE DEL TIPO DE SEGURO
-		int idTipo = Integer.parseInt(request.getParameter("filtro"));
 		SeguroDao segurosDao = new SeguroDao();
-		ArrayList<segurosDto> listaSeguro = new ArrayList<segurosDto>();
+		ArrayList<Seguro> listaSeguro = null;
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");   
-		rd.forward(request, response);
+		//Ver si hay algun filtro
+		String filtro = request.getParameter("filtro");
+		String botonPresionado = request.getParameter("btnFiltrar");
 		
-		if(idTipo == 0) {
+		//Si se presiona el boton...
+		if(botonPresionado != null && filtro != null) {
+		
+			if(filtro.equals("todos")) {
+				
+			}else {
+				int idTipo = Integer.parseInt(filtro);
+				listaSeguro = segurosDao.obtenerSegurosFiltrado(idTipo);
+			}	
+		}else {
 			listaSeguro = segurosDao.obtenerSeguros();
-		
-			request.setAttribute("listaSeguro", listaSeguro);
 		}
-
+		 request.setAttribute("listaSeguro", listaSeguro);
+		 RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");
+		 rd.forward(request, response);
 		
-		if(request.getParameter("btnFiltrar") != null) {
-
-			listaSeguro = segurosDao.obtenerSegurosFiltrado(idTipo);
-
-			request.setAttribute("listaSeguro", listaSeguro);
-			
-			rd.forward(request, response);
-		}*/
 	}
 
 	/**
